@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Better focus styles */
+:focus {
+  outline: none;
+  @apply ring-2 ring-primary ring-offset-2;
+}
+
+/* Improved tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition-duration: 300ms;
+}
+
+/* Loading state styles */
+.loading {
+  @apply animate-pulse bg-gray-200;
+}
+
+/* Better button hover states */
+button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+/* Improved link interactions */
+a:not(.no-underline):hover {
+  @apply underline;
+}
