@@ -3,6 +3,7 @@ import { Heart, Award, Clock, Users, ArrowRight, ChevronLeft, ChevronRight } fro
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useNews } from "../contexts/NewsContext";
+import background from "../img/welcome.jpg";
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -27,7 +28,7 @@ const Home = () => {
         transition={{ duration: 1 }}
         className="h-[600px] bg-cover bg-center relative"
         style={{
-          backgroundImage: "url('./src/img/welcome.jpg')",
+          backgroundImage: `url(${background})`,
         }}
       >
         <div className="absolute inset-0 bg-primary bg-opacity-70"></div>
