@@ -27,7 +27,7 @@ const Home = () => {
         transition={{ duration: 1 }}
         className="h-[600px] bg-cover bg-center relative"
         style={{
-          backgroundImage: "url('src/img/welcome.jpg')",
+          backgroundImage: "url('../src/img/welcome.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-primary bg-opacity-70"></div>

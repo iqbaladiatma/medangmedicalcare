@@ -21,7 +21,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex items-center">
             <a href="/">
-              <img src="/src/img/logo.png" alt="Logo" className="h-14 w-auto mr-2 object-contain" />
+              <img src="../src/img/logo.png" alt="Logo" className="h-14 w-auto mr-2 object-contain" />
             </a>
           </motion.div>
 
