@@ -34,7 +34,7 @@ const Home = () => {
         <div className="absolute inset-0 bg-primary bg-opacity-70"></div>
         <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center">
           <motion.div initial={{ x: -100, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-white max-w-2xl">
-            <h1 className="text-5xl font-bold mb-6">Selamat Datang di MMC</h1>
+            <h1 className="text-5xl font-bold mb-6">Selamat Datang di Klinik Pratama Medang Medical Care</h1>
             <p className="text-xl mb-8">Kesehatan Anda adalah prioritas kami. Kami menyediakan layanan kesehatan berkualitas dengan tim dokter profesional.</p>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
               Buat Janji Temu
