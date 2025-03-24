@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus, Edit2, Trash2, Search, X, Upload } from "lucide-react";
 import { useNews } from "../../contexts/NewsContext";
+import ReactQuill from "react-quill"; // Impor ReactQuill
+import "react-quill/dist/quill.snow.css"; // Impor CSS untuk styling
 
 interface NewsFormData {
   title: string;
@@ -60,13 +62,8 @@ const NewsManager = () => {
 
     let imageUrl = formData.image;
 
-    // Handle file upload if imageFile exists
     if (formData.imageFile) {
-      // Here you would typically upload the file to your server or cloud storage
-      // This is a placeholder for the actual upload logic
       try {
-        // const uploadResponse = await uploadImage(formData.imageFile);
-        // imageUrl = uploadResponse.url;
         console.log("Image would be uploaded here");
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -110,14 +107,22 @@ const NewsManager = () => {
     }
   };
 
-  const filteredNews = news.filter((item) => item.title.toLowerCase().includes(searchTerm.toLowerCase()) || item.category.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredNews = news.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="py-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-primary">Manajemen Berita</h1>
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setShowForm(true)} className="bg-primary text-white px-4 py-2 rounded-lg flex items-center">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowForm(true)}
+            className="bg-primary text-white px-4 py-2 rounded-lg flex items-center"
+          >
             <Plus className="h-5 w-5 mr-2" />
             Tambah Berita
           </motion.button>
@@ -126,7 +131,13 @@ const NewsManager = () => {
         <div className="mb-8">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input type="text" placeholder="Cari berita..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg" />
+            <input
+              type="text"
+              placeholder="Cari berita..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg"
+            />
           </div>
         </div>
 
@@ -165,7 +176,11 @@ const NewsManager = () => {
         {/* Form Modal */}
         {showForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+            >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">{editingNews ? "Edit Berita" : "Tambah Berita Baru"}</h2>
                 <button onClick={resetForm} className="text-gray-500 hover:text-gray-700">
@@ -176,27 +191,51 @@ const NewsManager = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Judul</label>
-                  <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg" required />
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    required
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Ringkasan</label>
-                  <textarea value={formData.excerpt} onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg" rows={3} required />
+                  <textarea
+                    value={formData.excerpt}
+                    onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    rows={3}
+                    required
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Konten (HTML)</label>
-                  <textarea value={formData.content} onChange={(e) => setFormData({ ...formData, content: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg" rows={6} required />
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Konten</label>
+                  <ReactQuill
+                    value={formData.content}
+                    onChange={(value) => setFormData({ ...formData, content: value })}
+                    className="bg-white"
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Gambar</label>
                   <div className="space-y-2">
                     <div className="flex space-x-4">
-                      <button type="button" onClick={() => setImageUploadType("url")} className={`px-4 py-2 rounded-lg ${imageUploadType === "url" ? "bg-primary text-white" : "bg-gray-200"}`}>
+                      <button
+                        type="button"
+                        onClick={() => setImageUploadType("url")}
+                        className={`px-4 py-2 rounded-lg ${imageUploadType === "url" ? "bg-primary text-white" : "bg-gray-200"}`}
+                      >
                         URL
                       </button>
-                      <button type="button" onClick={() => setImageUploadType("file")} className={`px-4 py-2 rounded-lg ${imageUploadType === "file" ? "bg-primary text-white" : "bg-gray-200"}`}>
+                      <button
+                        type="button"
+                        onClick={() => setImageUploadType("file")}
+                        className={`px-4 py-2 rounded-lg ${imageUploadType === "file" ? "bg-primary text-white" : "bg-gray-200"}`}
+                      >
                         Upload File
                       </button>
                     </div>
@@ -226,18 +265,39 @@ const NewsManager = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Penulis</label>
-                  <input type="text" value={formData.author} onChange={(e) => setFormData({ ...formData, author: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg" required />
+                  <input
+                    type="text"
+                    value={formData.author}
+                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    required
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
                   <div className="flex space-x-2 mb-2">
-                    <input type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className="flex-1 px-4 py-2 border border-gray-300 rounded-lg" placeholder="Tambah kategori baru" />
-                    <button type="button" onClick={handleAddCategory} className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">
+                    <input
+                      type="text"
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
+                      placeholder="Tambah kategori baru"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddCategory}
+                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
+                    >
                       Tambah
                     </button>
                   </div>
-                  <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    required
+                  >
                     <option value="">Pilih Kategori</option>
                     {categories.map((category) => (
                       <option key={category} value={category}>
@@ -249,7 +309,11 @@ const NewsManager = () => {
                     {categories.map((category) => (
                       <div key={category} className="bg-gray-100 px-3 py-1 rounded-full flex items-center space-x-2">
                         <span>{category}</span>
-                        <button type="button" onClick={() => deleteCategory(category)} className="text-red-500 hover:text-red-700">
+                        <button
+                          type="button"
+                          onClick={() => deleteCategory(category)}
+                          className="text-red-500 hover:text-red-700"
+                        >
                           <X className="h-4 w-4" />
                         </button>
                       </div>
